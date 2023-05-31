@@ -1,0 +1,57 @@
+{% include 'header.html.twig' %}
+<style>
+    .custom-dropdown {
+        max-width: 200px;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+</style>
+<div class="container">
+    <h1 class="display-3 text-center mt-5">Összes hajó</h1>
+    <br>
+    <br>
+    <div class="container d-flex align-item-center justify-content-center">
+        <select id="ship-dropdown" class="form-select mb-3 custom-dropdown">
+            <option value="all">Összes hajó</option>
+            {% for hajo in hajok %}
+                <option value="{{ hajo.hajoNev }}">{{ hajo.hajoNev }}</option>
+            {% endfor %}
+        </select>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th scope="col">hajoNev</th>
+                    <th scope="col">kormanyosNev</th>
+                    <th scope="col">klubNev</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hajo in hajok %}
+                    <tr class="ship-row">
+                        <td>{{ hajo.hajoNev }}</td>
+                        <td>{{ hajo.kormanyosNev }}</td>
+                        <td>{{ hajo.klubNev }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'footer.html.twig' %}
+<script>
+    const shipDropdown = document.getElementById('ship-dropdown');
+    const shipRows = document.querySelectorAll('.ship-row');
+    shipDropdown.addEventListener('change', function () {
+        const selectedShip = this.value;
+
+        shipRows.forEach(function (row) {
+            if (selectedShip === 'all' || row.cells[0].innerText === selectedShip) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
